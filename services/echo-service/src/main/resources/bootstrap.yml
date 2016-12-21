@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: echo-service
+
+  cloud:
+    config:
+      discovery.enabled: true
+      discovery.serviceId: config-server
+      failFast: true
+
+# Discovery Server Access
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://10.1.110.21:1111/eureka/
+
+server:
+  port: 0 #HTTP(Tomcat) port

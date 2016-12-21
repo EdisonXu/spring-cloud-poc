@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: compute-service
+
+  cloud:
+    config:
+      discovery.enabled: true
+      discovery.serviceId: config-server
+      failFast: true
+
+# Discovery Server Access
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:1111/eureka/
+  instance:
+    leaseRenewalIntervalInSeconds: 5
+    leaseExpirationDurationInSeconds: 5

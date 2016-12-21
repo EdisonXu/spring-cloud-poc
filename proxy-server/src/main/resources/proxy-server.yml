@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: proxy-server
+
+# HTTP Server
+server:
+  port: 1112 #HTTP(Tomcat) port
+
+zuul:
+  # ignoredServices: '*'
+  routes:
+    echo:
+     path: /**
+     serviceId: api-gateway-service
+     #url: http://10.1.110.21:334
+     #stripPrefix: false
+
+proxy:
+  auth:
+    routes:
+      echo: none
+
+security:
+  user:
+    name: test
+    password: test
