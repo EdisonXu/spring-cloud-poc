@@ -12,5 +12,6 @@
     <file url="file://$PROJECT_DIR$/services/api-gateway-service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/compute-service" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/services/echo-service" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/zipkin-server" charset="UTF-8" />
   </component>
 </project>

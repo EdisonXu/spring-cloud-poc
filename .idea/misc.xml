@@ -9,6 +9,7 @@
         <option value="$PROJECT_DIR$/services/api-gateway-service/pom.xml" />
         <option value="$PROJECT_DIR$/hystrix-dashboard/pom.xml" />
         <option value="$PROJECT_DIR$/admin-server/pom.xml" />
+        <option value="$PROJECT_DIR$/zipkin-server/pom.xml" />
       </list>
     </option>
   </component>
