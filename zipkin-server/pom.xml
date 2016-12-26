@@ -11,6 +11,10 @@
 	<name>zipkin-server</name>
 	<description>The zipkin server</description>
 
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
 	<parent>
 		<groupId>com.edi</groupId>
 		<artifactId>spring-cloud-poc</artifactId>

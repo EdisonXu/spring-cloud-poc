@@ -8,14 +8,6 @@ spring:
       discovery.serviceId: config-server
       failFast: true
 
-  zipkin:
-    host: 127.0.0.1
-    port: 1113
-
-  sleuth:
-    sampler:
-      percentage: 1.0
-
 # Discovery Server Access
 eureka:
   client:

@@ -12,12 +12,15 @@
 	<description>POC for Spring Cloud</description>
 
 	<modules>
+        <module>cloud-common</module>
         <module>eureka-server</module>
 		<module>config-server</module>
 		<module>proxy-server</module>
         <module>admin-server</module>
+        <module>zipkin-server</module>
         <!--<module>hystrix-dashboard</module>-->
         <module>services</module>
+
     </modules>
 	
 	<parent>
@@ -31,14 +34,10 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.7</java.version>
+        <druid-version>1.0.27</druid-version>
 	</properties>
 
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
 			<artifactId>spring-cloud-starter-feign</artifactId>
@@ -58,7 +57,18 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
-		</dependencies>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <scope>runtime</scope>
+                <version>5.1.30</version>
+            </dependency>
+        </dependencies>
 	</dependencyManagement>
 
 	<build>
@@ -69,6 +79,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

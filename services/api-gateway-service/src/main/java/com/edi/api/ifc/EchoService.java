@@ -1,5 +1,6 @@
-package com.edi;
+package com.edi.api.ifc;
 
+import com.edi.EchoServiceHystrix;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;

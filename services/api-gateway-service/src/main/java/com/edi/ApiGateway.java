@@ -1,5 +1,6 @@
 package com.edi;
 
+import com.edi.api.ifc.EchoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
