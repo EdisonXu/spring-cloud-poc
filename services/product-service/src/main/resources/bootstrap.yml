@@ -1,6 +1,6 @@
 spring:
   application:
-    name: echo-service
+    name: product-service
 
   cloud:
     config:

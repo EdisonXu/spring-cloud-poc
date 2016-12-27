@@ -1,11 +1,11 @@
-package com.edi;
+package com.edi.services.web.controller;
 
+import com.edi.com.edi.services.web.ifc.EchoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
-import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/")
-public class EchoController  implements EchoService{
+public class EchoController  implements EchoService {
 
     private final Logger logger = LoggerFactory.getLogger(EchoController.class);
 
