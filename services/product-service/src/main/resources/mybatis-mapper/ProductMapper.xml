@@ -14,36 +14,36 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.edi.services.mapper.UserMapper">
+<mapper namespace="com.edi.services.mapper.ProductMapper">
 
     <cache
             eviction="LRU"
             flushInterval="60000"
             readOnly="true"/>
 
-    <select id="readUser" resultType="com.edi.common.domain.User">
-        select id,NAME,password from user
-        where
-        agg_id in (select MAX(agg_id) from user where event_type=#{event}
-        <choose>
-            <when test="id!=null">
-                AND id=#{id}
-            </when>
-            <otherwise>
-                GROUP BY id
-            </otherwise>
-        </choose>
+    <select id="readProduct" resultType="com.edi.common.domain.Product">
+        select id,NAME,amount as amount from product
+        where agg_id in (select MAX(agg_id) from product
+            where event_type=#{event}
+            <choose>
+                <when test="id!=null">
+                    AND id=#{id}
+                </when>
+                <otherwise>
+                    GROUP BY id
+                </otherwise>
+            </choose>
         )
     </select>
 
-    <insert id="insertUser" flushCache="true">
-        insert into user (
+    <insert id="insertProduct" flushCache="true">
+        insert into product (
         <trim prefixOverrides=",">
             <if test="aggId!=null">agg_id</if>
             <if test="event!=null">,event_type</if>
             <if test="id!=null">,id</if>
             <if test="name!=null">,name</if>
-            <if test="password!=null">,password</if>
+            <if test="amount!=null">,amount</if>
         </trim>
         ) values (
         <trim prefixOverrides=",">
@@ -51,26 +51,26 @@
             <if test="event!=null">,#{event}</if>
             <if test="id!=null">,#{id}</if>
             <if test="name!=null">,#{name}</if>
-            <if test="password!=null">,#{password}</if>
+            <if test="amount!=null">,#{amount}</if>
         </trim>
         )
     </insert>
 
-    <update id="updateUser" flushCache="true">
-        update user
+    <update id="updateProduct" flushCache="true">
+        update product
         <trim prefix="SET" suffixOverrides=",">
             <if test="aggId!=null">agg_id=#{aggId},</if>
             <if test="event!=null">event_type=#{event},</if>
             <if test="id!=null">id=#{id},</if>
             <if test="name!=null">name=#{name},</if>
-            <if test="password!=null">password=#{password},</if>
+            <if test="amount!=null">amount=#{amount},</if>
         </trim>
         <where>
             id=#{id}
         </where>
     </update>
 
-    <delete id="deleteUser" flushCache="true">
-        delete from user <where> id=#{id} </where>
+    <delete id="deleteProduct" flushCache="true">
+        delete from product <where> id=#{id} </where>
     </delete>
 </mapper>

@@ -5,7 +5,6 @@
 
 	<groupId>com.edi</groupId>
 	<artifactId>user-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>user-service</name>
@@ -18,11 +17,6 @@
 	</parent>
 
 	<dependencies>
-        <dependency>
-            <groupId>com.edi</groupId>
-            <artifactId>cloud-common</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

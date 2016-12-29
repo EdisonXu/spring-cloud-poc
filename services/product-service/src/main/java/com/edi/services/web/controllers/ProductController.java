@@ -1,9 +1,9 @@
 package com.edi.services.web.controllers;
 
 import com.edi.common.domain.CommandEvent;
-import com.edi.common.domain.User;
+import com.edi.common.domain.Product;
 import com.edi.common.utils.AggregatorIdGenerator;
-import com.edi.common.web.ifc.UserService;
+import com.edi.common.web.ifc.ProductService;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,9 +21,9 @@ import java.util.List;
  * Created by Edison Xu on 2016/12/15.
  */
 @RestController
-public class UserController implements UserService {
+public class ProductController implements ProductService {
 
-    private final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private final Logger logger = LoggerFactory.getLogger(ProductController.class);
 
     @Autowired
     private SqlSession sqlSession;
@@ -35,40 +35,40 @@ public class UserController implements UserService {
     private HttpServletRequest request;
 
     @Override
-    public void createUser(@RequestBody User user) {
+    public void createProduct(@RequestBody Product product) {
         logInstanceInfor();
-        user.setAggId(AggregatorIdGenerator.instance.generate());
-        user.setEvent(CommandEvent.COMMIT);
-        sqlSession.insert("com.edi.services.mapper.UserMapper.insertUser",user);
+        product.setAggId(AggregatorIdGenerator.instance.generate());
+        product.setEvent(CommandEvent.COMMIT);
+        sqlSession.insert("insertProduct",product);
     }
 
     @Override
-    public void updateUser(@PathVariable long id, @RequestBody User user) {
+    public void updateProduct(@PathVariable long id, @RequestBody Product product) {
         logInstanceInfor();
-        user.setAggId(AggregatorIdGenerator.instance.generate());
-        user.setEvent(CommandEvent.COMMIT);
+        product.setAggId(AggregatorIdGenerator.instance.generate());
+        product.setEvent(CommandEvent.COMMIT);
         //this.sqlSession.update("updateUser", user);
-        this.sqlSession.insert("insertUser", user);
+        this.sqlSession.insert("insertProduct", product);
     }
 
     @Override
-    public User getUser(@PathVariable long id) {
+    public Product getProduct(@PathVariable long id) {
         logInstanceInfor();
-        User u = new User(id);
-        u.setEvent(CommandEvent.COMMIT);
-        return sqlSession.selectOne("readUser", u);
+        Product p = new Product(id);
+        p.setEvent(CommandEvent.COMMIT);
+        return sqlSession.selectOne("readProduct", p);
     }
 
     @Override
-    public List<User> getUsers() {
+    public List<Product> getProducts() {
         logInstanceInfor();
-        return sqlSession.selectList("readUser", new User());
+        return sqlSession.selectList("readProduct", new Product());
     }
 
     @Override
-    public void deleteUser(@PathVariable long id) {
+    public void deleteProduct(@PathVariable long id) {
         logInstanceInfor();
-        this.sqlSession.delete("deleteUser",id);
+        this.sqlSession.delete("deleteProduct",id);
     }
 
     private void logInstanceInfor() {

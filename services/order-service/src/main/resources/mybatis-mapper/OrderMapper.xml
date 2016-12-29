@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+       Copyright 2015-2016 the original author or authors.
+       Licensed under the Apache License, Version 2.0 (the "License");
+       you may not use this file except in compliance with the License.
+       You may obtain a copy of the License at
+          http://www.apache.org/licenses/LICENSE-2.0
+       Unless required by applicable law or agreed to in writing, software
+       distributed under the License is distributed on an "AS IS" BASIS,
+       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+       See the License for the specific language governing permissions and
+       limitations under the License.
+-->
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.edi.services.mapper.OrderMapper">
+
+    <cache
+            eviction="LRU"
+            flushInterval="60000"
+            readOnly="true"/>
+
+    <select id="readOrder" resultType="com.edi.common.domain.Order">
+        select o.id, u.name as userName, o.create_time from `order` o
+        left join
+        (SELECT id, NAME FROM `user` WHERE agg_id IN (SELECT MAX(agg_id) FROM `user` WHERE event_type='COMMIT' GROUP BY id))
+        u on o.user_id=u.id
+        <!--<where> o.id = #{id} and o.event_type=#{event}</where> ORDER BY o.agg_id DESC LIMIT 1-->
+        <where> o.agg_id IN (SELECT MAX(agg_id) FROM `order` where event_type= #{event}
+            <choose>
+                <when test="id!=null">
+                    AND id=#{id}
+                </when>
+                <otherwise>
+                    GROUP BY id
+                </otherwise>
+            </choose>
+            )</where>
+    </select>
+
+    <select id="readOrderProducts" resultType="com.edi.common.domain.OrderProduct">
+        select order_id as orderId, product_id as id, product_amt as amount, state, create_time createTime
+        from order_product
+        <where>
+            agg_id in (select MAX(agg_id) from order_product where order_id=#{id} and event_type=#{event}
+            group by product_id,order_id)
+        </where>
+    </select>
+
+    <insert id="insertOrder" flushCache="true">
+        insert into `order` (
+        <trim prefixOverrides=",">
+            <if test="aggId!=null">agg_id</if>
+            <if test="event!=null">,event_type</if>
+            <if test="id!=null">,id</if>
+            <if test="userId!=null">,user_id</if>
+        </trim>
+        ) values (
+        <trim prefixOverrides=",">
+            <if test="aggId!=null">#{aggId}</if>
+            <if test="event!=null">,#{event}</if>
+            <if test="id!=null">,#{id}</if>
+            <if test="userId!=null">,#{userId}</if>
+        </trim>
+        )
+    </insert>
+
+    <insert id="insertOrderProducts" parameterType="java.util.List" flushCache="true">
+        insert into order_product(agg_id, event_type, order_id, product_id, product_amt, state) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.aggId}, #{item.event}, #{item.orderId}, #{item.id}, #{item.amount}, #{item.state})
+        </foreach>
+    </insert>
+
+    <update id="updateOrder" flushCache="true">
+        update `order`
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="aggId!=null">agg_id=#{aggId},</if>
+            <if test="event!=null">event_type=#{event},</if>
+            <if test="id!=null">id=#{id},</if>
+            <if test="userId!=null">user_id=#{userId},</if>
+        </trim>
+        <where>
+            id=#{id}
+        </where>
+    </update>
+
+    <delete id="deleteOrder" flushCache="true">
+        delete from `order` <where> id=#{id} </where>
+    </delete>
+</mapper>

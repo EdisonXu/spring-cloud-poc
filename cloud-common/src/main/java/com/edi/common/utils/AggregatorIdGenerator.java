@@ -12,11 +12,9 @@ public enum AggregatorIdGenerator {
 
     @Value("${distribute_index}")
     private long index=0;
-    private DistributeUniqueId id;
+    private DistributeUniqueId id = new DistributeUniqueId(index);
 
-    public long getId(){
-        if(id == null)
-            id = new DistributeUniqueId(index);
-        return id.getValue();
+    public long generate(){
+        return id.generate();
     }
 }

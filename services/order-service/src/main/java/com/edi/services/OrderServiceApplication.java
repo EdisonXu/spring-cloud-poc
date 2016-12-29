@@ -1,17 +1,19 @@
-package com.edi;
+package com.edi.services;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.feign.EnableFeignClients;
+import org.springframework.context.annotation.ComponentScan;
 
 @EnableDiscoveryClient
 @EnableFeignClients
 @SpringBootApplication
-public class EchoServiceApplication {
+@ComponentScan(basePackages = {"com.edi"})
+public class OrderServiceApplication {
 
 	public static void main(String[] args) {
-		System.setProperty("spring.config.name", "echo-service");
-		new SpringApplicationBuilder(EchoServiceApplication.class).web(true).run(args);
+		//System.setProperty("spring.config.name", "order-service");
+		new SpringApplicationBuilder(OrderServiceApplication.class).web(true).run(args);
 	}
 }

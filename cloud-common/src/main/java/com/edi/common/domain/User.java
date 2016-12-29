@@ -13,7 +13,6 @@ public class User extends Entity implements Serializable{
     private String password;
     private Integer age;
     private Integer roleId;
-    private Date createTime;
 
     public User(){}
 
@@ -61,14 +60,6 @@ public class User extends Entity implements Serializable{
         this.roleId = roleId;
     }
 
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -80,8 +71,7 @@ public class User extends Entity implements Serializable{
         if (!getName().equals(user.getName())) return false;
         if (!getPassword().equals(user.getPassword())) return false;
         if (getAge() != null ? !getAge().equals(user.getAge()) : user.getAge() != null) return false;
-        if (getRoleId() != null ? !getRoleId().equals(user.getRoleId()) : user.getRoleId() != null) return false;
-        return getCreateTime() != null ? getCreateTime().equals(user.getCreateTime()) : user.getCreateTime() == null;
+        return getRoleId() != null ? getRoleId().equals(user.getRoleId()) : user.getRoleId() == null;
     }
 
     @Override
@@ -91,7 +81,17 @@ public class User extends Entity implements Serializable{
         result = 31 * result + getPassword().hashCode();
         result = 31 * result + (getAge() != null ? getAge().hashCode() : 0);
         result = 31 * result + (getRoleId() != null ? getRoleId().hashCode() : 0);
-        result = 31 * result + (getCreateTime() != null ? getCreateTime().hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", age=" + age +
+                ", roleId=" + roleId +
+                '}';
     }
 }
