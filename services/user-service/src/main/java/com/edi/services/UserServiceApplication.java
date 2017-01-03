@@ -13,7 +13,7 @@ import org.springframework.context.annotation.ComponentScan;
 public class UserServiceApplication {
 
 	public static void main(String[] args) {
-		//System.setProperty("spring.config.name", "user-service");
+		System.setProperty("spring.config.name", "user-service");
 		new SpringApplicationBuilder(UserServiceApplication.class).web(true).run(args);
 	}
 }

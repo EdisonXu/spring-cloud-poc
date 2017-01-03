@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * Created by Edison Xu on 2016/12/28.
  */
-public class Product extends Entity implements Serializable{
+public class Product extends Entity {
 
     private Long id;
     private String name;

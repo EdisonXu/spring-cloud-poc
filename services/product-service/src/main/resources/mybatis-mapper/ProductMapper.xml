@@ -56,6 +56,13 @@
         )
     </insert>
 
+    <insert id="batchInsert" parameterType="java.util.List" flushCache="true">
+        insert into product(agg_id, event_type, order_id, product_id, product_amt, state) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.aggId}, #{item.event}, #{item.orderId}, #{item.id}, #{item.amount}, #{item.state})
+        </foreach>
+    </insert>
+
     <update id="updateProduct" flushCache="true">
         update product
         <trim prefix="SET" suffixOverrides=",">
@@ -73,4 +80,11 @@
     <delete id="deleteProduct" flushCache="true">
         delete from product <where> id=#{id} </where>
     </delete>
+
+    <insert id="updateInventory" parameterType="java.util.List" flushCache="true">
+        insert into inventory_event (agg_id, event_type, product_id, event, amount) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.aggId}, #{item.event}, #{item.targetId}, #{item.quantityEvent}, #{item.amount})
+        </foreach>
+    </insert>
 </mapper>

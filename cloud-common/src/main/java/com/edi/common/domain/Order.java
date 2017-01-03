@@ -1,14 +1,12 @@
 package com.edi.common.domain;
 
-import com.edi.common.web.ifc.OrderState;
 
-import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Edison Xu on 2016/12/28.
  */
-public class Order extends Entity implements Serializable{
+public class Order extends Entity {
 
     private Long id;
     private Long userId;

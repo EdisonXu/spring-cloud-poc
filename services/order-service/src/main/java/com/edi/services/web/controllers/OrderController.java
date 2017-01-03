@@ -1,11 +1,9 @@
 package com.edi.services.web.controllers;
 
-import com.edi.common.domain.CommandEvent;
-import com.edi.common.domain.Order;
-import com.edi.common.domain.OrderProduct;
+import com.edi.common.domain.*;
 import com.edi.common.utils.AggregatorIdGenerator;
 import com.edi.common.web.ifc.OrderService;
-import com.edi.common.web.ifc.OrderState;
+import com.edi.common.web.ifc.ProductService;
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +25,7 @@ import java.util.List;
 @RestController
 public class OrderController implements OrderService {
 
-    private final Logger logger = LoggerFactory.getLogger(OrderController.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 
     @Autowired
     private SqlSession sqlSession;
@@ -37,6 +36,9 @@ public class OrderController implements OrderService {
     @Autowired
     private HttpServletRequest request;
 
+    @Autowired
+    private ProductService productService;
+
     @Override
     @Transactional
     public void createOrder(@RequestBody Order order) {
@@ -46,13 +48,25 @@ public class OrderController implements OrderService {
         order.setId(orderId);
         order.setAggId(aggId);
         order.setEvent(CommandEvent.COMMIT);
+        //QuantityEventWrapper wrapper = new QuantityEventWrapper();
+        ArrayList<QuantityEvent> events = new ArrayList<QuantityEvent>();
         for(OrderProduct each:order.getProducts()){
             each.setOrderId(orderId);
             each.setAggId(aggId);
+            QuantityEvent event = new QuantityEvent(each.getId(),each.getAmount(), QuantityEventType.REDUCE);
+            event.setAggId(aggId);
+            //wrapper.getEvents().add(event);
+            events.add(event);
         }
         //sqlSession.getConfiguration().setDefaultExecutorType(ExecutorType.BATCH);
         sqlSession.insert("insertOrder", order);
         sqlSession.insert("insertOrderProducts", order.getProducts());
+
+        //reduce the amount of products
+        //LOGGER.info(wrapper.toString());
+        //productService.updateInventory(wrapper);
+        LOGGER.info(events.toString());
+        //productService.updateInventory(events);
     }
 
     @Override
@@ -95,6 +109,6 @@ public class OrderController implements OrderService {
 
     private void logInstanceInfor() {
         ServiceInstance instance = client.getLocalServiceInstance();
-        logger.info(request.getMethod() + ":" + request.getRequestURL() + ", host:" + instance.getHost() + ", service_id:" + instance.getServiceId());
+        LOGGER.info(request.getMethod() + ":" + request.getRequestURL() + ", host:" + instance.getHost() + ", service_id:" + instance.getServiceId());
     }
 }

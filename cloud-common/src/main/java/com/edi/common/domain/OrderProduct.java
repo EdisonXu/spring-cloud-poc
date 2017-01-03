@@ -1,6 +1,5 @@
 package com.edi.common.domain;
 
-import com.edi.common.web.ifc.OrderState;
 
 /**
  * Created by Edison Xu on 2016/12/28.

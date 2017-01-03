@@ -7,13 +7,13 @@ import org.springframework.cloud.netflix.feign.EnableFeignClients;
 import org.springframework.context.annotation.ComponentScan;
 
 @EnableDiscoveryClient
-@EnableFeignClients
+@EnableFeignClients(basePackages = {"com.edi.common.web.ifc"})
 @SpringBootApplication
 @ComponentScan(basePackages = {"com.edi"})
 public class OrderServiceApplication {
 
 	public static void main(String[] args) {
-		//System.setProperty("spring.config.name", "order-service");
+		System.setProperty("spring.config.name", "order-service");
 		new SpringApplicationBuilder(OrderServiceApplication.class).web(true).run(args);
 	}
 }

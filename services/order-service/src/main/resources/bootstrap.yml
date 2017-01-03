@@ -11,6 +11,7 @@ spring:
 # Discovery Server Access
 eureka:
   client:
+    fetchRegistry: true
     serviceUrl:
       defaultZone: http://10.1.110.21:1111/eureka/
 
