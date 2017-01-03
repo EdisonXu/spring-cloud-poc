@@ -48,14 +48,12 @@ public class OrderController implements OrderService {
         order.setId(orderId);
         order.setAggId(aggId);
         order.setEvent(CommandEvent.COMMIT);
-        //QuantityEventWrapper wrapper = new QuantityEventWrapper();
         ArrayList<QuantityEvent> events = new ArrayList<QuantityEvent>();
         for(OrderProduct each:order.getProducts()){
             each.setOrderId(orderId);
             each.setAggId(aggId);
-            QuantityEvent event = new QuantityEvent(each.getId(),each.getAmount(), QuantityEventType.REDUCE);
+            QuantityEvent event = new QuantityEvent(each.getId(),each.getAmount(), QuantityEvent.EventType.REDUCE);
             event.setAggId(aggId);
-            //wrapper.getEvents().add(event);
             events.add(event);
         }
         //sqlSession.getConfiguration().setDefaultExecutorType(ExecutorType.BATCH);
@@ -63,10 +61,8 @@ public class OrderController implements OrderService {
         sqlSession.insert("insertOrderProducts", order.getProducts());
 
         //reduce the amount of products
-        //LOGGER.info(wrapper.toString());
-        //productService.updateInventory(wrapper);
         LOGGER.info(events.toString());
-        //productService.updateInventory(events);
+        productService.updateInventory(events);
     }
 
     @Override
