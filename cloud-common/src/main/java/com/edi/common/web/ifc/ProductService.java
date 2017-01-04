@@ -2,7 +2,6 @@ package com.edi.common.web.ifc;
 
 import com.edi.common.domain.Product;
 import com.edi.common.domain.QuantityEvent;
-import com.edi.common.domain.QuantityEventWrapper;
 import org.springframework.cloud.netflix.feign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,7 +24,7 @@ public interface ProductService {
     public void updateProduct(@PathVariable(value = "id") long id, @RequestBody Product product);
 
     @RequestMapping(method = RequestMethod.PATCH, value = "/product/inventory")
-    public void updateInventory(@RequestBody QuantityEventWrapper event);
+    public void updateInventory(@RequestBody ArrayList<QuantityEvent> events);
 
     @RequestMapping(method = RequestMethod.GET, value = "/product/{id}")
     public Product getProduct(@PathVariable(value = "id") long id);

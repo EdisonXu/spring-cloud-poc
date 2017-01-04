@@ -7,15 +7,15 @@ public class QuantityEvent extends Entity{
 
     private long targetId;
     private int amount;
-    private QuantityEventType type;
+    private EventType eventType;
 
     public QuantityEvent() {
     }
 
-    public QuantityEvent(long targetId, int amount, QuantityEventType type) {
+    public QuantityEvent(long targetId, int amount, EventType eventType) {
         this.targetId = targetId;
         this.amount = amount;
-        this.type = type;
+        this.eventType = eventType;
     }
 
     public long getTargetId() {
@@ -34,32 +34,45 @@ public class QuantityEvent extends Entity{
         this.amount = amount;
     }
 
-    public QuantityEventType getType() {
-        return type;
+    public EventType getEventType() {
+        return eventType;
     }
 
-    public void setType(QuantityEventType type) {
-        this.type = type;
+    public void setEventType(EventType eventType) {
+        this.eventType = eventType;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof QuantityEvent)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
 
         QuantityEvent that = (QuantityEvent) o;
 
         if (targetId != that.targetId) return false;
         if (amount != that.amount) return false;
-        return type == that.type;
+        return eventType == that.eventType;
     }
 
     @Override
     public int hashCode() {
         int result = (int) (targetId ^ (targetId >>> 32));
         result = 31 * result + amount;
-        result = 31 * result + (type != null ? type.hashCode() : 0);
+        result = 31 * result + (eventType != null ? eventType.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "QuantityEvent{" +
+                "targetId=" + targetId +
+                ", amount=" + amount +
+                ", eventType=" + eventType +
+                '}';
+    }
+
+    public enum EventType{
+        ADD,REDUCE;
     }
 
 }
