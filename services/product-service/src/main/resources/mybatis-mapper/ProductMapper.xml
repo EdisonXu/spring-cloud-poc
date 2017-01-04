@@ -22,7 +22,8 @@
             readOnly="true"/>
 
     <select id="readProduct" resultType="com.edi.common.domain.Product">
-        select id,NAME,amount as amount from product
+        select p.id, p.name ,p.amount+s.stock as amount from product p
+        left join (select product_id, SUM(IF(event='REDUCE', -amount, amount)) stock from inventory_event group by product_id ) s on p.id=s.product_id
         where agg_id in (select MAX(agg_id) from product
             where event_type=#{event}
             <choose>
@@ -84,7 +85,7 @@
     <insert id="updateInventory" parameterType="java.util.List" flushCache="true">
         insert into inventory_event (agg_id, event_type, product_id, event, amount) values
         <foreach collection="list" item="item" index="index" separator=",">
-            (#{item.aggId}, #{item.event}, #{item.targetId}, #{item.quantityEvent}, #{item.amount})
+            (#{item.aggId}, #{item.event}, #{item.targetId}, #{item.eventType}, #{item.amount})
         </foreach>
     </insert>
 </mapper>

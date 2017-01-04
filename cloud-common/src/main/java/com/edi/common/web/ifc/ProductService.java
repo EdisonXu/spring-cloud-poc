@@ -23,7 +23,7 @@ public interface ProductService {
     @RequestMapping(method = RequestMethod.PUT, value = "/product/{id}")
     public void updateProduct(@PathVariable(value = "id") long id, @RequestBody Product product);
 
-    @RequestMapping(method = RequestMethod.PATCH, value = "/product/inventory")
+    @RequestMapping(method = RequestMethod.POST, value = "/product/inventory")
     public void updateInventory(@RequestBody ArrayList<QuantityEvent> events);
 
     @RequestMapping(method = RequestMethod.GET, value = "/product/{id}")
